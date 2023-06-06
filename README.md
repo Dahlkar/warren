@@ -20,10 +20,10 @@ Create a service `example.py`:
 from uservice import Service
 
 
-service = Service(name='example')
+service = Service(name="example")
 
 
-@service.event_handler('source', 'event')
+@service.event_handler("source", "event")
 def handle_event(payload):
     print(payload)
 ```
@@ -65,7 +65,7 @@ from uservice import Service
 from pydantic import BaseModel
 
 
-service = Service(name='service')
+service = Service(name="service")
 
 
 class Payload(BaseModel):
@@ -73,7 +73,7 @@ class Payload(BaseModel):
     bar: int
     
 
-@service.event_handler('source', 'event')
+@service.event_handler("source", "event")
 def handle_event(payload: Payload):
     print(payload)
 ```
@@ -128,8 +128,8 @@ service = Service(name="service")
 @service.rpc(response_model=Response)
 def method(x: int, b: int):
     return {
-        'foo': x,
-        'bar': y,
+        "foo": x,
+        "bar": y,
     }
 ```
 
