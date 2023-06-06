@@ -6,8 +6,11 @@ from aio_pika import IncomingMessage, Connection, Message
 from pydantic import BaseModel, ValidationError
 
 from uservice.contexts import ServiceContext
-from uservice.utils import create_publish_field, serialize_payload
+from uservice.utils import create_field, serialize_payload
 from .consumer import AmqpConsumer
+
+
+EVENT_HANDLER_QUEUE = 'uservice-{}-{}-{}'
 
 
 class AmqpEventHandler(AmqpConsumer):
@@ -72,7 +75,7 @@ class AmqpEventPublisher:
     ):
         self.field = None
         if publish_model:
-            self.field = create_publish_field(
+            self.field = create_field(
                 name='publish_model',
                 type_=publish_model,
             )

@@ -48,7 +48,7 @@ dependencies = [
 path = "uservice/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = ["/uvicorn"]
+include = ["/uservice"]
 
 [tool.hatch.envs.test.scripts]
 run-coverage = "pytest --cov-config=pyproject.toml --cov=pkg --cov=tests"

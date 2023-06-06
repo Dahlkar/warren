@@ -10,7 +10,7 @@ from contextlib import AsyncExitStack
 from aio_pika import IncomingMessage, Connection, Message, Exchange, Channel
 
 from uservice.contexts import ServiceContext
-from uservice.utils import serialize_payload
+from uservice.utils import create_field, serialize_payload
 from .consumer import AmqpConsumer
 
 
@@ -28,7 +28,12 @@ class AmqpRpc(AmqpConsumer):
             response_model: Optional[Any],
     ):
         super().__init__(context=context, call=call)
-        self.response_model = response_model
+        self.field = None
+        if response_model:
+            self.field = create_field(
+                name='response_model',
+                type_=response_model,
+            )
 
     def get_exchange_name(self) -> str:
         return self.context.settings.amqp.rpc_exchange
@@ -56,7 +61,7 @@ class AmqpRpc(AmqpConsumer):
             })
         result = await self.dependant.call(**params)
         body = serialize_payload(
-            field=None,
+            field=self.field,
             payload_content=result,
         )
         response = Message(

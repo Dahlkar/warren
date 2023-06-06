@@ -16,7 +16,7 @@ class Response(BaseModel):
 
 
 async def handle(x, y):
-    return x * y
+    return {"foo": x * y}
 
 
 @pytest.fixture(scope="module")
@@ -81,7 +81,6 @@ async def test_rcp_consume_reply(mock, channel, service_name, settings, rpc, inp
         auto_delete=True,
     )
 
-
     await reply_queue.bind(exchange, reply_routing_key)
     consumer_tag = await reply_queue.consume(handle_message)
 
@@ -98,8 +97,8 @@ async def test_rcp_consume_reply(mock, channel, service_name, settings, rpc, inp
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     'input,expects', [
-        ({'x': 1, 'y': 2}, 2),
-        ({'x': 3, 'y': 2}, 6),
+        ({'x': 1, 'y': 2}, {"foo": 2}),
+        ({'x': 3, 'y': 2}, {"foo": 6}),
     ]
 )
 async def test_rpc_proxy(

@@ -5,7 +5,7 @@ from pydantic import BaseConfig, BaseModel, ValidationError
 from pydantic.fields import ModelField, FieldInfo
 
 
-def create_publish_field(
+def create_field(
     name: str,
     type_: Type[Any],
 ) -> ModelField:
