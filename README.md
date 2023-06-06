@@ -2,6 +2,8 @@
 A async microservice framework for Python. Inspired by [FastAPI](https://github.com/tiangolo/fastapi) and [Nameko](https://github.com/nameko/nameko).
 It uses the [uvloop](https://github.com/MagicStack/uvloop) event loop instead of the default python asyncio loop.
 
+> Disclaimer: This project is NOT production ready.
+
 ## Requirements
 
 Python 3.10+
