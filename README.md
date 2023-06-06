@@ -24,7 +24,7 @@ service = Service(name="example")
 
 
 @service.event_handler("source", "event")
-def handle_event(payload):
+async def handle_event(payload):
     print(payload)
 ```
 
@@ -74,7 +74,7 @@ class Payload(BaseModel):
     
 
 @service.event_handler("source", "event")
-def handle_event(payload: Payload):
+async def handle_event(payload: Payload):
     print(payload)
 ```
 
@@ -100,7 +100,7 @@ publisher = EventPublisher(publish_model=Payload)
 service = Service(name="service")
 
 @service.event_handler("source", "event")
-def handle(
+async def handle(
         payload: Payload,
         publish: Annotated[Callable, Depends(publisher)],
 ):
@@ -126,7 +126,7 @@ class Response(BaseModel):
 service = Service(name="service")
 
 @service.rpc(response_model=Response)
-def method(x: int, b: int):
+async def method(x: int, b: int):
     return {
         "foo": x,
         "bar": y,
@@ -144,7 +144,7 @@ from pydantic import BaseModel
 caller = Service(name="caller")
 
 @service.rpc()
-def call(service: Annotated[ServiceProxy, Depends(RpcProxy)]):
+async def call(service: Annotated[ServiceProxy, Depends(RpcProxy)]):
     print(service.method(x=2, y=3))
 ```
 
@@ -170,12 +170,12 @@ class Settings(BaseSettings):
     version: str = "1.0.0"
 
 
-def get_settings():
+async def get_settings():
     return Settings()
         
 
 @service.event_handler("source", "event")
-def handle(
+async def handle(
         payload: Payload,
         settings: Annotated[Settings, Depends(get_settings)],
 ):
