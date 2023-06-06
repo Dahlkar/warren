@@ -1,4 +1,5 @@
 import asyncio
+import uvloop
 import signal
 
 
@@ -18,10 +19,13 @@ class ServiceRunner:
     ):
         self.service_str = service_str
 
+    def setup_event_loop(self):
+        asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
     def load(self):
         self.loaded_service: Service = import_from_string(self.service_str)
 
     def run(self):
         self.load()
+        self.setup_event_loop()
         return asyncio.run(self.loaded_service.run())
