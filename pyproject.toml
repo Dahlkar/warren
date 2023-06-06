@@ -4,7 +4,6 @@ build-backend = "hatchling.build"
 
 [project]
 name = "uservice"
-version = "0.1.0"
 description = "A async microservice framework for python"
 authors = [
         { name = 'Johan Dahlkar', email = 'johan.dahlkar@gmail.com' }
@@ -20,6 +19,14 @@ dependencies = [
     "watchfiles>=0.19.0",
     "PyYAML>=6.0",
 ]
+dynamic = ["version"]
+
+
+[project.scripts]
+uservice = "uservice.main:main"
+
+[project.urls]
+Homepage = "https://github.com/dahlkar/uservice"
 
 [project.optional-dependencies]
 test = [
@@ -27,9 +34,6 @@ test = [
     "pytest==7.3.1",
     "pytest-asyncio==0.21.0"
 ]
-
-[project.scripts]
-uservice = "uservice.main:main"
 
 [tool.hatch.envs.test]
 dependencies = [
@@ -40,12 +44,15 @@ dependencies = [
   "pytest-asyncio",
 ]
 
+[tool.hatch.version]
+path = "uservice/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/uvicorn"]
+
 [tool.hatch.envs.test.scripts]
 run-coverage = "pytest --cov-config=pyproject.toml --cov=pkg --cov=tests"
 run = "run-coverage --no-cov"
-
-
-[tool.hatch.version]
 
 [tool.pytest.ini_options]
 testpaths = [

@@ -1,6 +1,6 @@
-# uService
+# μService
 A async microservice framework for Python. Inspired by [FastAPI](https://github.com/tiangolo/fastapi) and [Nameko](https://github.com/nameko/nameko).
-
+It uses the [uvloop](https://github.com/MagicStack/uvloop) event loop instead of the default python asyncio loop.
 
 ## Requirements
 
@@ -21,7 +21,6 @@ class Payload(BaseModel):
 
 publisher = EventPublisher()
 
-
 service_a = Service(name="service_a")
 
 
@@ -29,7 +28,7 @@ service_a = Service(name="service_a")
 def dispatch(
         input: Payload,
         publish: Annotated[Callable, Depends(publisher)],
-) -> NoReturn:
+):
     publish("event", payload)
 
 
@@ -39,7 +38,6 @@ service_b = Service(name="service_b")
 @service_b.event_handler("service_a", "event")
 def handle(
         payload: Payload,
-) -> NoReturn:
+):
     print(payload)
 ```
-
