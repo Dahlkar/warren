@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "uservice"
+version = "0.1.0"
+description = "A async microservice framework for python"
+authors = [
+        { name = 'Johan Dahlkar', email = 'johan.dahlkar@gmail.com' }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = '>=3.10'
+dependencies = [
+    "uvloop>=0.17.0",
+    "aio-pika>=9.0.7",
+    "pydantic>=1.10.8",
+    "click>=8.1.3",
+    "watchfiles>=0.19.0",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "docker==6.1.3",
+    "pytest==7.3.1",
+    "pytest-asyncio==0.21.0"
+]
+
+[project.scripts]
+uservice = "uservice.main:main"
+
+[tool.hatch.envs.test]
+dependencies = [
+  "coverage[toml]",
+  "pytest",
+  "docker",
+  "pytest-cov",
+  "pytest-asyncio",
+]
+
+[tool.hatch.envs.test.scripts]
+run-coverage = "pytest --cov-config=pyproject.toml --cov=pkg --cov=tests"
+run = "run-coverage --no-cov"
+
+
+[tool.hatch.version]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+follow_imports = "skip"
+strict_optional = true
