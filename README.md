@@ -106,7 +106,7 @@ async def handle(
         payload: Payload,
         publish: Annotated[Callable, Depends(publisher)],
 ):
-    publish("event", payload)
+    await publish("event", payload)
 ```
 
 
@@ -147,7 +147,7 @@ caller = Service(name="caller")
 
 @service.rpc()
 async def call(service: Annotated[ServiceProxy, Depends(RpcProxy)]):
-    print(service.method(x=2, y=3))
+    print(await service.method(x=2, y=3))
 ```
 
 ### Dependency Injection
